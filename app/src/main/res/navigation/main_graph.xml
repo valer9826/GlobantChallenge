@@ -19,5 +19,9 @@
         android:id="@+id/detailFragment"
         android:name="com.renatovaler.globantchallenge.presentation.ui.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="country"
+            app:argType="com.renatovaler.globantchallenge.presentation.ui.search.model.CountryUiModel" />
+    </fragment>
 </navigation>
