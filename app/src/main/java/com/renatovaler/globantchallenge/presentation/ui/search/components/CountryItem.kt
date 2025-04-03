@@ -18,11 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.renatovaler.globantchallenge.domain.model.Country
+import com.renatovaler.globantchallenge.presentation.ui.search.model.CountryUiModel
 
 @Composable
 fun CountryItem(
-    country: Country,
+    country: CountryUiModel,
     onClick: () -> Unit
 ) {
     Row(
@@ -35,7 +35,7 @@ fun CountryItem(
         Image(
             painter = rememberAsyncImagePainter(model = country.flagUrl),
             contentDescription = null,
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier.size(65.dp)
         )
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -57,7 +57,7 @@ fun CountryItem(
 private fun CountryItemPreview() {
 
     CountryItem(
-        country = Country(
+        country = CountryUiModel(
             officialName = "Peru",
             commonName = "Peru",
             capital = "Lima",

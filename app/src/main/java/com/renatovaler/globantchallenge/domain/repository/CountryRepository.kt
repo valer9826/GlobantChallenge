@@ -4,7 +4,7 @@ import com.renatovaler.globantchallenge.domain.model.Country
 import kotlinx.coroutines.flow.Flow
 
 interface CountryRepository {
-    fun getAll(): Flow<List<Country>>
-    fun search(query: String): Flow<List<Country>>
+    fun getAll(): Flow<Result<List<Country>>>
+    fun search(query: String): Flow<Result<List<Country>>>
 }
 

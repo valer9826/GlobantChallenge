@@ -4,5 +4,5 @@ import com.renatovaler.globantchallenge.domain.model.Country
 import kotlinx.coroutines.flow.Flow
 
 interface GetAllCountriesUseCase {
-    operator fun invoke(): Flow<List<Country>>
+    operator fun invoke(): Flow<Result<List<Country>>>
 }

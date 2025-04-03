@@ -3,6 +3,6 @@ import com.renatovaler.globantchallenge.domain.model.Country
 import kotlinx.coroutines.flow.Flow
 
 interface SearchCountriesUseCase {
-    operator fun invoke(query: String): Flow<List<Country>>
+    operator fun invoke(query: String): Flow<Result<List<Country>>>
 }
 

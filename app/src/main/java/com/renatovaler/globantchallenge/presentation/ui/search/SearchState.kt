@@ -1,9 +1,10 @@
 package com.renatovaler.globantchallenge.presentation.ui.search
 
-import com.renatovaler.globantchallenge.domain.model.Country
+import com.renatovaler.globantchallenge.presentation.ui.search.model.CountryUiModel
 
 data class SearchState(
     val query: String = "",
-    val results: List<Country> = emptyList(),
-    val isLoading: Boolean = false
+    val results: List<CountryUiModel> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null
 )

@@ -10,11 +10,11 @@ class SearchCountriesUseCaseImpl @Inject constructor(
     private val repository: CountryRepository
 ) : SearchCountriesUseCase {
 
-    override fun invoke(query: String): Flow<List<Country>> {
+    override fun invoke(query: String): Flow<Result<List<Country>>> {
         return if (query.length >= 2) {
             repository.search(query)
         } else {
-            flowOf(emptyList())
+            flowOf(Result.success(emptyList()))
         }
     }
 }
