@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,12 +13,28 @@
         android:orientation="vertical"
         android:paddingHorizontal="12dp">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorSurface"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold"
+                android:textColor="?android:attr/textColorPrimary" />
+        </androidx.appcompat.widget.Toolbar>
+
         <ImageView
             android:id="@+id/imageFlag"
             android:layout_width="180dp"
             android:layout_height="100dp"
             android:contentDescription="@string/flag"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitStart" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -186,7 +203,6 @@
                 android:textColor="@color/gray"
                 android:textSize="18sp" />
 
-
         </LinearLayout>
 
         <LinearLayout
@@ -217,6 +233,7 @@
             android:id="@+id/textCoatOfArms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/coat_of_arms"
             android:textColor="@color/gray"
             android:textSize="18sp"
@@ -226,7 +243,7 @@
             android:id="@+id/imageCoatOfArms"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@string/coat_of_arms"
             android:scaleType="fitStart" />
     </LinearLayout>

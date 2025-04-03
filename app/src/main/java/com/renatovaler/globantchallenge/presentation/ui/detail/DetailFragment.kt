@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.renatovaler.globantchallenge.R
+import com.renatovaler.globantchallenge.MainActivity
 import com.renatovaler.globantchallenge.databinding.FragmentDetailBinding
 
 class DetailFragment : Fragment() {
@@ -27,7 +28,20 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpToolbar()
         setUpUi()
+    }
+
+    private fun setUpToolbar() {
+        binding.toolbar.apply {
+            val activity = (activity as? MainActivity)
+            activity?.setupToolbar(this)
+            setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+        }
+
+        binding.toolbarTitle.text = args.country.officialName
     }
 
     private fun setUpUi() {
@@ -46,14 +60,14 @@ class DetailFragment : Fragment() {
 
             imageFlag.load(country.flagUrl) {
                 crossfade(true)
-//                placeholder(R.drawable.placeholder_flag)
-//                error(R.drawable.error_flag)
+//                placeholder(R.drawable.)
+//                error(R.drawable.)
             }
 
             imageCoatOfArms.load(country.coatOfArmsUrl) {
                 crossfade(true)
-//                placeholder(R.drawable.placeholder_shield)
-//                error(R.drawable.error_shield)
+//                placeholder(R.drawable.)
+//                error(R.drawable.)
             }
         }
     }

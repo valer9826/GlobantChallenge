@@ -1,14 +1,12 @@
 <resources>
     <string name="app_name">GlobantChallenge</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="flag">Flag</string>
-    <string name="capital">Capital -</string>
-    <string name="region">Region -</string>
-    <string name="subregion">Subregion -</string>
-    <string name="languages">Languages -</string>
-    <string name="currencies">Currencies -</string>
-    <string name="population">Population -</string>
-    <string name="carside">CarSide -</string>
+    <string name="capital">Capital -&#160;</string>
+    <string name="region">Region -&#160;</string>
+    <string name="subregion">Subregion -&#160;</string>
+    <string name="languages">Languages -&#160;</string>
+    <string name="currencies">Currencies -&#160;</string>
+    <string name="population">Population -&#160;</string>
+    <string name="carside">CarSide -&#160;</string>
     <string name="coat_of_arms">Coat of Arms</string>
 </resources>

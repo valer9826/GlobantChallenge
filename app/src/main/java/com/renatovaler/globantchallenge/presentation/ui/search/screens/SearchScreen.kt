@@ -26,10 +26,11 @@ import com.renatovaler.globantchallenge.presentation.ui.search.mapper.toUiModel
 @Composable
 fun SearchScreen(
     state: SearchState,
-    onIntent: (SearchIntent) -> Unit
+    onIntent: (SearchIntent) -> Unit,
+    modifier: Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -79,5 +80,5 @@ fun PreviewSearchScreen() {
             )
         )
     )
-    SearchScreen(state = fakeState, onIntent = {})
+    SearchScreen(state = fakeState, onIntent = {}, modifier = Modifier)
 }
