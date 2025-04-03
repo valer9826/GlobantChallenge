@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.renatovaler.globantchallenge.domain.model.Country
@@ -40,8 +42,26 @@ fun CountryItem(
 
         Column {
             Text(text = country.commonName, style = MaterialTheme.typography.titleMedium)
-            Text(text = country.officialName, style = MaterialTheme.typography.bodySmall)
-            Text(text = country.capital, style = MaterialTheme.typography.bodySmall)
+            Text(text = country.officialName, style = MaterialTheme.typography.bodyMedium)
+            Text(
+                text = country.capital,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray
+            )
         }
     }
+}
+
+@Preview
+@Composable
+private fun CountryItemPreview() {
+
+    CountryItem(
+        country = Country(
+            officialName = "Peru",
+            commonName = "Peru",
+            capital = "Lima",
+            flagUrl = ""
+        )
+    ) { }
 }

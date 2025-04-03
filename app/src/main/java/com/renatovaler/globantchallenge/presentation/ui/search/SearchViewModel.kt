@@ -8,7 +8,6 @@ import com.renatovaler.globantchallenge.domain.usecase.search.SearchCountriesUse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -16,44 +15,51 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getAllCountriesUseCase: GetAllCountriesUseCase,
-    private val searchCountriesUseCase: SearchCountriesUseCase
+    getAllCountriesUseCase: GetAllCountriesUseCase,
+    searchCountriesUseCase: SearchCountriesUseCase
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
-    val query: StateFlow<String> = _query
-
     private val _searchResults = _query
-        .debounce(400)
+        .debounce(200)
         .filter { it.isNotBlank() }
         .flatMapLatest { name ->
             searchCountriesUseCase(name)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    private val _allCountries = MutableStateFlow<List<Country>>(emptyList())
-        .onStart { getAllCountriesUseCase() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
+    private val _allCountries: StateFlow<List<Country>> =
+        getAllCountriesUseCase()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = emptyList()
+            )
+
 
     val state: StateFlow<SearchState> = combine(
         _query,
         _searchResults,
         _allCountries
     ) { query, searchResults, allCountries ->
+        val isInitialLoad = query.isBlank() && allCountries.isEmpty()
+        val isSearching = query.length >= 2 && searchResults.isEmpty()
+
         SearchState(
             query = query,
             results = when {
                 query.isBlank() -> allCountries
-                query.length < 2 -> allCountries // <- Lógica UI: no cambiar resultados si input incompleto
+                query.length < 2 -> allCountries
                 else -> searchResults
-            }
+            },
+            isLoading = isInitialLoad || isSearching
         )
     }.stateIn(
         scope = viewModelScope,
@@ -64,8 +70,7 @@ class SearchViewModel @Inject constructor(
     fun onIntent(intent: SearchIntent) {
         when (intent) {
             is SearchIntent.OnQueryChanged -> _query.value = intent.query
-            is SearchIntent.OnCountryClicked -> { /* Navegación */
-            }
+            is SearchIntent.OnCountryClicked -> {}
         }
     }
 }

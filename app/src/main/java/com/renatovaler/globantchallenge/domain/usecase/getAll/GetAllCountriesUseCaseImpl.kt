@@ -9,6 +9,6 @@ class GetAllCountriesUseCaseImpl @Inject constructor(
     private val repository: CountryRepository
 ) : GetAllCountriesUseCase {
 
-    override suspend fun invoke(): Flow<List<Country>> = repository.getAll()
+    override fun invoke(): Flow<List<Country>> = repository.getAll()
 
 }
