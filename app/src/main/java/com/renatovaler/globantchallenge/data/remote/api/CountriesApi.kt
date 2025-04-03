@@ -1,4 +1,4 @@
-package com.renatovaler.globantchallenge.data.api
+package com.renatovaler.globantchallenge.data.remote.api
 
 import com.renatovaler.globantchallenge.data.dto.CountryDto
 import retrofit2.http.GET
