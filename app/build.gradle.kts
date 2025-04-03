@@ -46,6 +46,10 @@ android {
 
 dependencies {
 
+    //Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil)
+
     //XML
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -64,11 +68,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     // Hilt
-    implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.fragment)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    // Coroutines + Flow
+    // Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
