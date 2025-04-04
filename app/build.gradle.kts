@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    testImplementation(libs.junit.junit)
 
     // Hilt
     ksp(libs.hilt.compiler)
@@ -97,6 +98,20 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Coroutines test
+    testImplementation(libs.kotlinx.coroutines.test)
+    // Kotlin test
+    testImplementation(libs.kotlin.test)
+    // Mockito
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    // Turbine
+    testImplementation(libs.turbine)
+    // Truth
+    testImplementation(libs.truth)
+    // Architecture Components (si usas ViewModel directamente)
+    testImplementation(libs.androidx.core.testing)
 
     //Icons Extended
     implementation(libs.androidx.material.icons.extended)
