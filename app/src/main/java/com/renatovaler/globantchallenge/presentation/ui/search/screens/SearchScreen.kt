@@ -49,7 +49,7 @@ fun SearchScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.TopCenter
                 ) {
                     CircularProgressIndicator()
                 }
