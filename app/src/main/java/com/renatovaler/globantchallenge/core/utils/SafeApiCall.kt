@@ -10,6 +10,6 @@ suspend fun <T> safeApiCall(call: suspend () -> T): Result<T> {
             Result.success(call())
         }
     } catch (e: Exception) {
-        Result.failure(mapToNetworkError(e))
+        Result.failure(mapToNetworkError(e.cause ?: e))
     }
 }
