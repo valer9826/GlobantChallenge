@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 
 object NetworkHelper {
 
@@ -14,6 +15,7 @@ object NetworkHelper {
     }
 
     fun isNetworkAvailable(): Boolean {
+        if (!::appContext.isInitialized) return true
         val connectivityManager = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
         val network = connectivityManager?.activeNetwork ?: return false
         val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
