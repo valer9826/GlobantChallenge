@@ -3,8 +3,8 @@ package com.renatovaler.globantchallenge.presentation.ui.search.mapper
 import com.renatovaler.globantchallenge.domain.model.Country
 import com.renatovaler.globantchallenge.presentation.ui.search.model.CountryUiModel
 
-fun Country.toUiModel(): CountryUiModel =
-    CountryUiModel(
+fun Country.toUiModel(): CountryUiModel {
+    return CountryUiModel(
         commonName = commonName,
         officialName = officialName,
         capital = capital,
@@ -17,3 +17,4 @@ fun Country.toUiModel(): CountryUiModel =
         currencies = currencies,
         carSide = carSide
     )
+}

@@ -51,7 +51,7 @@
                 android:paddingVertical="8dp">
 
                 <TextView
-                    android:id="@+id/tvOfficialName"
+                    android:id="@+id/tvCommonName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -59,7 +59,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvCommonName"
+                    android:id="@+id/tvOfficialName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp" />

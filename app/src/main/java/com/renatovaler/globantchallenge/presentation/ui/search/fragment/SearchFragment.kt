@@ -1,4 +1,4 @@
-package com.renatovaler.globantchallenge.presentation.ui.search
+package com.renatovaler.globantchallenge.presentation.ui.search.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.renatovaler.globantchallenge.databinding.FragmentSearchBinding
+import com.renatovaler.globantchallenge.presentation.ui.search.SearchViewModel
 import com.renatovaler.globantchallenge.presentation.ui.search.screens.SearchRootScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,7 +43,8 @@ class SearchFragment : Fragment() {
                 SearchRootScreen(
                     viewModel = viewModel,
                     onNavigateToDetail = { countryUiModel ->
-                        val action = SearchFragmentDirections.goToDetailFragment(country = countryUiModel)
+                        val action =
+                            SearchFragmentDirections.goToDetailFragment(country = countryUiModel)
                         findNavController().navigate(action)
                     })
             }

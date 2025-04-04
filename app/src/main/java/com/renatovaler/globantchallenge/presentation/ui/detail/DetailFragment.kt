@@ -41,7 +41,7 @@ class DetailFragment : Fragment() {
             }
         }
 
-        binding.toolbarTitle.text = args.country.officialName
+        binding.toolbarTitle.text = args.country.commonName
     }
 
     private fun setUpUi() {

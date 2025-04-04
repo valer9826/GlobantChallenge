@@ -9,6 +9,7 @@ fun CountryDto.toDomain(): Country {
     val currencies = currencies?.map { (code, data) ->
         "$code (${data.name ?: "Unknown"})"
     }?.joinToString() ?: "No Info"
+    val carSide = car.side.replaceFirstChar { it.uppercaseChar() }
 
     return Country(
         commonName = name.common,
@@ -21,6 +22,6 @@ fun CountryDto.toDomain(): Country {
         population = population,
         languages = languages,
         currencies = currencies,
-        carSide = car.side
+        carSide = carSide
     )
 }

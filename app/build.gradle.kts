@@ -106,11 +106,12 @@ dependencies {
     // Mockito
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.inline)
+
     // Turbine
     testImplementation(libs.turbine)
     // Truth
     testImplementation(libs.truth)
-    // Architecture Components (si usas ViewModel directamente)
     testImplementation(libs.androidx.core.testing)
 
     //Icons Extended
