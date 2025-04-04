@@ -1,6 +1,6 @@
 package com.renatovaler.globantchallenge.data.repository
 
-import com.renatovaler.globantchallenge.core.utils.safeApiCall
+import com.renatovaler.globantchallenge.core.network.safeApiCall
 import com.renatovaler.globantchallenge.data.remote.api.CountriesApi
 import com.renatovaler.globantchallenge.data.mapper.toDomain
 import com.renatovaler.globantchallenge.domain.model.Country
@@ -16,6 +16,7 @@ class CountryRepositoryImpl @Inject constructor(
 
     override fun getAll(): Flow<Result<List<Country>>> = flow {
         val result = safeApiCall {
+            println("🚀 Repository real ejecutado")
             api.getAll().map { it.toDomain() }
         }
         emit(result)
@@ -23,6 +24,7 @@ class CountryRepositoryImpl @Inject constructor(
 
     override fun search(query: String): Flow<Result<List<Country>>> = flow {
         val result = safeApiCall {
+            println("🚀 Repository real ejecutado")
             api.search(query).map { it.toDomain() }
         }
         emit(result)
