@@ -48,8 +48,10 @@ class SearchViewModelTest {
 
     @Test
     fun `GIVEN initial state WHEN no query is entered THEN show all countries`() = runTest {
+        // WHEN
         advanceUntilIdle()
 
+        // THEN
         viewModel.state.test {
             skipItems(1)
             val final = awaitItem()
@@ -63,9 +65,11 @@ class SearchViewModelTest {
 
     @Test
     fun `GIVEN valid query WHEN result is found THEN emit country list`() = runTest {
+        // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("per"))
         advanceUntilIdle()
 
+        // THEN
         viewModel.state.test {
             skipItems(2)
             val final = awaitItem()
@@ -79,9 +83,11 @@ class SearchViewModelTest {
 
     @Test
     fun `GIVEN query with no result WHEN search is performed THEN show loading state`() = runTest {
+        // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("xzy"))
         advanceUntilIdle()
 
+        // THEN
         viewModel.state.test {
             skipItems(1)
             val item = awaitItem()
@@ -94,14 +100,17 @@ class SearchViewModelTest {
 
     @Test
     fun `GIVEN search fails WHEN query is entered THEN show error`() = runTest {
+        // GIVEN
         whenever(searchCountriesUseCase("per")).thenReturn(
             flowOf(Result.failure(NetworkError.Timeout))
         )
 
+        // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("per"))
         advanceTimeBy(300)
         runCurrent()
 
+        // THEN
         viewModel.state.test {
             skipItems(2)
             val item = awaitItem()
@@ -110,14 +119,16 @@ class SearchViewModelTest {
         }
     }
 
-
     @Test
     fun `GIVEN getAllCountries fails WHEN ViewModel is created THEN show error`() = runTest {
+        // GIVEN
         whenever(getAllCountriesUseCase()).thenReturn(flowOf(Result.failure(NetworkError.ServerError)))
 
+        // WHEN
         val viewModel =
             SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase, testDispatchers)
 
+        // THEN
         viewModel.state.test {
             skipItems(1)
             val item = awaitItem()
@@ -128,9 +139,11 @@ class SearchViewModelTest {
 
     @Test
     fun `GIVEN unknown exception WHEN search is triggered THEN show unknown error`() = runTest {
+        // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("error"))
         advanceTimeBy(300)
 
+        // THEN
         viewModel.state.test {
             skipItems(2)
             val item = awaitItem()
