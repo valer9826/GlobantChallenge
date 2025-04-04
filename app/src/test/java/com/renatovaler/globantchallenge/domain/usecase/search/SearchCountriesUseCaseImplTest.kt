@@ -2,7 +2,7 @@ package com.renatovaler.globantchallenge.domain.usecase.search
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.renatovaler.globantchallenge.MainDispatcherRule
+import com.renatovaler.globantchallenge.utils.MainDispatcherRule
 import com.renatovaler.globantchallenge.domain.repository.CountryRepository
 import com.renatovaler.globantchallenge.utils.CountryFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
