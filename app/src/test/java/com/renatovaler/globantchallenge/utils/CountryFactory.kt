@@ -31,5 +31,20 @@ object CountryFactory {
         carSide = "left"
     )
 
+    fun guyana() =  Country(
+        commonName = "Guyana",
+        officialName = "Co-operative Republic of Guyana",
+        capital = "Georgetown",
+        region = "Americas",
+        subregion = "South America",
+        flagUrl = "https://flagcdn.com/w320/gy.png",
+        coatOfArmsUrl = "https://mainfacts.com/media/images/coats_of_arms/gy.png",
+        population = 786559,
+        languages = "English",
+        currencies = "Guyanese dollar",
+        carSide = "left"
+    )
+
     fun someCountries() = listOf(peru(), grenada())
+    fun countriesWithNameContainingPer() = listOf(peru(), guyana())
 }
