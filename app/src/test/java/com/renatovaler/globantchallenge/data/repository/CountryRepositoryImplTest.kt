@@ -70,7 +70,7 @@ class CountryRepositoryImplTest {
 
     @Test
     fun `GIVEN SocketTimeoutException WHEN search is called THEN emit failure with NetworkError Timeout`() = runTest {
-        whenever(api.search("any")).thenThrow(SocketTimeoutException("Read timed out"))
+        whenever(api.search("any")).thenThrow(RuntimeException(SocketTimeoutException("Read timed out")))
 
         val result = repository.search("any").first()
 
@@ -79,7 +79,7 @@ class CountryRepositoryImplTest {
 
     @Test
     fun `GIVEN IOException WHEN search is called THEN emit failure with NetworkError NoInternetConnection`() = runTest {
-        whenever(api.search("any")).thenThrow(IOException("No connection"))
+        whenever(api.search("any")).thenThrow(RuntimeException(IOException("No connection")))
 
         val result = repository.search("any").first()
 
