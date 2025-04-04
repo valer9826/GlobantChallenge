@@ -26,6 +26,7 @@ activityCompose = "1.10.1"
 composeBom = "2025.03.01"
 materialIconsExtended = "1.7.8"
 mockitoCore = "5.11.0"
+mockitoInline = "5.2.0"
 mockitoKotlin = "5.2.1"
 navigationFragmentKtx = "2.8.9"
 retrofit = "2.9.0"
@@ -73,6 +74,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }

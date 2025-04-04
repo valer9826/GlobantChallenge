@@ -1,4 +1,4 @@
-package com.renatovaler.globantchallenge.data.remote.error
+package com.renatovaler.globantchallenge.core.network
 
 sealed class NetworkError : Throwable() {
     object NoInternetConnection : NetworkError()
