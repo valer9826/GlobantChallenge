@@ -16,7 +16,6 @@ class CountryRepositoryImpl @Inject constructor(
 
     override fun getAll(): Flow<Result<List<Country>>> = flow {
         val result = safeApiCall {
-            println("🚀 Repository real ejecutado")
             api.getAll().map { it.toDomain() }
         }
         emit(result)
@@ -24,7 +23,6 @@ class CountryRepositoryImpl @Inject constructor(
 
     override fun search(query: String): Flow<Result<List<Country>>> = flow {
         val result = safeApiCall {
-            println("🚀 Repository real ejecutado")
             api.search(query).map { it.toDomain() }
         }
         emit(result)

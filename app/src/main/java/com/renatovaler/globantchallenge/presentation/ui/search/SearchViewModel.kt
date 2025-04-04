@@ -55,7 +55,6 @@ class SearchViewModel @Inject constructor(
 
     private val _allCountries = getAllCountriesUseCase()
         .catch { e ->
-            println("🔥 getAllCountriesUseCase lanzó: $e")
             emit(Result.failure(e))
         }
         .stateIn(scope, SharingStarted.WhileSubscribed(5000), Result.success(emptyList()))
@@ -65,7 +64,6 @@ class SearchViewModel @Inject constructor(
         _searchResults,
         _allCountries
     ) { query, searchResult, allCountriesResult ->
-        println("🌍 _allCountries: success=${allCountriesResult.isSuccess}, exception=${allCountriesResult.exceptionOrNull()}")
         val isInitialLoad = query.isBlank() && allCountriesResult.isSuccess && allCountriesResult.getOrNull().isNullOrEmpty()
         val isSearching = query.length >= 2 && searchResult.isSuccess && searchResult.getOrNull().isNullOrEmpty()
 
