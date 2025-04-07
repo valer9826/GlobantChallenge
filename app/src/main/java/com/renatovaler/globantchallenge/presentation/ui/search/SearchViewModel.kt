@@ -3,6 +3,7 @@ package com.renatovaler.globantchallenge.presentation.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renatovaler.globantchallenge.core.network.NetworkError
+import com.renatovaler.globantchallenge.core.utils.DispatcherProvider
 import com.renatovaler.globantchallenge.domain.usecase.getAll.GetAllCountriesUseCase
 import com.renatovaler.globantchallenge.domain.usecase.search.SearchCountriesUseCase
 import com.renatovaler.globantchallenge.presentation.ui.search.mapper.toUiModel
@@ -26,6 +27,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     getAllCountriesUseCase: GetAllCountriesUseCase,
     searchCountriesUseCase: SearchCountriesUseCase,
+    dispatchers: DispatcherProvider,
 ) : ViewModel() {
 
     internal var scope = viewModelScope
