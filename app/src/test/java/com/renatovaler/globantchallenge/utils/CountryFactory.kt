@@ -1,7 +1,6 @@
 package com.renatovaler.globantchallenge.utils
 
 import com.renatovaler.globantchallenge.domain.model.Country
-import com.renatovaler.globantchallenge.presentation.ui.search.model.CountryUiModel
 
 object CountryFactory {
 
@@ -78,31 +77,4 @@ object CountryFactory {
             carSide = carSide
         )
     }
-
-    fun createUiModel(
-        commonName: String = "Default",
-        officialName: String = "Official Default",
-        capital: String = "Default Capital",
-        flagUrl: String = "https://flag.png",
-        region: String = "Default Region",
-        subregion: String = "Default Subregion",
-        coatOfArmsUrl: String? = null,
-        population: String? = "0",
-        languages: String? = "DefaultLang",
-        currencies: String? = "Dollar",
-        carSide: String? = "right"
-    ): CountryUiModel = CountryUiModel(
-        commonName = commonName,
-        officialName = officialName,
-        capital = capital,
-        flagUrl = flagUrl,
-        region = region,
-        subregion = subregion,
-        coatOfArmsUrl = coatOfArmsUrl,
-        population = population,
-        languages = languages,
-        currencies = currencies,
-        carSide = carSide
-    )
-
 }

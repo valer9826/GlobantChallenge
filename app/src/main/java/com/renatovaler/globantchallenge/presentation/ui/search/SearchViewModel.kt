@@ -2,13 +2,11 @@ package com.renatovaler.globantchallenge.presentation.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renatovaler.globantchallenge.core.utils.DispatcherProvider
 import com.renatovaler.globantchallenge.core.network.NetworkError
 import com.renatovaler.globantchallenge.domain.usecase.getAll.GetAllCountriesUseCase
 import com.renatovaler.globantchallenge.domain.usecase.search.SearchCountriesUseCase
 import com.renatovaler.globantchallenge.presentation.ui.search.mapper.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,19 +26,9 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     getAllCountriesUseCase: GetAllCountriesUseCase,
     searchCountriesUseCase: SearchCountriesUseCase,
-    dispatchers: DispatcherProvider,
 ) : ViewModel() {
 
     internal var scope = viewModelScope
-
-    constructor(
-        getAllCountriesUseCase: GetAllCountriesUseCase,
-        searchCountriesUseCase: SearchCountriesUseCase,
-        dispatchers: DispatcherProvider,
-        testScope: CoroutineScope
-    ) : this(getAllCountriesUseCase, searchCountriesUseCase, dispatchers) {
-        this.scope = testScope
-    }
 
     private val _query = MutableStateFlow("")
 

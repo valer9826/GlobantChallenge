@@ -60,14 +60,10 @@ class DetailFragment : Fragment() {
 
             imageFlag.load(country.flagUrl) {
                 crossfade(true)
-//                placeholder(R.drawable.)
-//                error(R.drawable.)
             }
 
             imageCoatOfArms.load(country.coatOfArmsUrl) {
                 crossfade(true)
-//                placeholder(R.drawable.)
-//                error(R.drawable.)
             }
         }
     }
