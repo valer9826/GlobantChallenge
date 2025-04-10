@@ -87,7 +87,7 @@ class SearchViewModel @Inject constructor(
             is NetworkError.NoInternetConnection -> "No internet connection"
             is NetworkError.ServerError -> "Server error"
             is NetworkError.ClientError -> "Request error"
-            is NetworkError.Timeout -> "Timeout"
+            is NetworkError.Timeout -> "Timeout error"
             is NetworkError.Unknown -> "Unknown error"
             else -> null
         }

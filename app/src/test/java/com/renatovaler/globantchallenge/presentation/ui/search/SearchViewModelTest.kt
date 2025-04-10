@@ -1,5 +1,6 @@
 package com.renatovaler.globantchallenge.presentation.ui.search
 
+import android.R.string.cancel
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.renatovaler.globantchallenge.core.network.NetworkError
@@ -7,13 +8,21 @@ import com.renatovaler.globantchallenge.domain.usecase.getAll.GetAllCountriesUse
 import com.renatovaler.globantchallenge.domain.usecase.search.SearchCountriesUseCase
 import com.renatovaler.globantchallenge.utils.CountryFactory
 import com.renatovaler.globantchallenge.utils.MainDispatcherRule
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.NonCancellable.cancel
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withTimeout
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,38 +56,39 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN initial state WHEN no query is entered THEN show all countries`() = runTest {
+    fun `GIVEN initial loading data WHEN no query is entered THEN show all countries`() = runTest {
         // WHEN
         advanceUntilIdle()
 
         // THEN
-        viewModel.state.test {
-            skipItems(1)
-            val final = awaitItem()
-
-            assertThat(final.query).isEmpty()
-            assertThat(final.results.map { it.commonName }).containsExactly("Peru", "Guyana")
-            assertThat(final.isLoading).isFalse()
-            assertThat(final.error).isNull()
+        val final = withTimeout(2000) {
+            viewModel.state.first { state ->
+                state.results.isNotEmpty()
+            }
         }
+
+        assertThat(final.query).isEmpty()
+        assertThat(final.results.map { it.commonName }).containsExactly("Peru", "Guyana")
+        assertThat(final.isLoading).isFalse()
+        assertThat(final.error).isNull()
     }
 
     @Test
     fun `GIVEN valid query WHEN result is found THEN emit country list`() = runTest {
         // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("per"))
-        advanceUntilIdle()
+        advanceTimeBy(300)
+        runCurrent()
 
         // THEN
-        viewModel.state.test {
-            skipItems(2)
-            val final = awaitItem()
-
-            assertThat(final.query).isEqualTo("per")
-            assertThat(final.results.map { it.commonName }).containsExactly("Peru")
-            assertThat(final.isLoading).isFalse()
-            assertThat(final.error).isNull()
+        val final = viewModel.state.first { state ->
+            state.query == "per" && state.results.isNotEmpty()
         }
+
+        assertThat(final.query).isEqualTo("per")
+        assertThat(final.results.map { it.commonName }).containsExactly("Peru")
+        assertThat(final.isLoading).isFalse()
+        assertThat(final.error).isNull()
     }
 
     @Test
@@ -88,22 +98,20 @@ class SearchViewModelTest {
         advanceUntilIdle()
 
         // THEN
-        viewModel.state.test {
-            skipItems(1)
-            val item = awaitItem()
-            assertThat(item.query).isEqualTo("xzy")
-            assertThat(item.results).isEmpty()
-            assertThat(item.isLoading).isTrue()
-            assertThat(item.error).isNull()
+        val final = withTimeout(2000) {
+            viewModel.state.first { it.query == "xzy" && it.isLoading }
         }
+
+        assertThat(final.query).isEqualTo("xzy")
+        assertThat(final.results).isEmpty()
+        assertThat(final.isLoading).isTrue()
+        assertThat(final.error).isNull()
     }
 
     @Test
     fun `GIVEN search fails WHEN query is entered THEN show error`() = runTest {
         // GIVEN
-        whenever(searchCountriesUseCase("per")).thenReturn(
-            flowOf(Result.failure(NetworkError.Timeout))
-        )
+        whenever(searchCountriesUseCase("per")).thenReturn(flowOf(Result.failure(NetworkError.Timeout)))
 
         // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("per"))
@@ -111,13 +119,14 @@ class SearchViewModelTest {
         runCurrent()
 
         // THEN
-        viewModel.state.test {
-            skipItems(2)
-            val item = awaitItem()
-            assertThat(item.results).isEmpty()
-            assertThat(item.error).isEqualTo("Tiempo de espera agotado")
+        val final = withTimeout(2000) {
+            viewModel.state.first { it.query == "per" && it.error != null }
         }
+
+        assertThat(final.results).isEmpty()
+        assertThat(final.error).isEqualTo("Timeout error")
     }
+
 
     @Test
     fun `GIVEN getAllCountries fails WHEN ViewModel is created THEN show error`() = runTest {
@@ -125,30 +134,30 @@ class SearchViewModelTest {
         whenever(getAllCountriesUseCase()).thenReturn(flowOf(Result.failure(NetworkError.ServerError)))
 
         // WHEN
-        val viewModel =
-            SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase, testDispatchers)
+        val viewModel = SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase, testDispatchers)
 
         // THEN
-        viewModel.state.test {
-            skipItems(1)
-            val item = awaitItem()
-
-            assertThat(item.error).isEqualTo("Error del servidor")
+        val final = withTimeout(2000) {
+            viewModel.state.first { it.error != null }
         }
+
+        assertThat(final.error).isEqualTo("Server error")
     }
+
 
     @Test
     fun `GIVEN unknown exception WHEN search is triggered THEN show unknown error`() = runTest {
         // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("error"))
         advanceTimeBy(300)
+        runCurrent()
 
         // THEN
-        viewModel.state.test {
-            skipItems(2)
-            val item = awaitItem()
-            assertThat(item.results).isEmpty()
-            assertThat(item.error).isEqualTo("Error desconocido")
+        val final = withTimeout(2000) {
+            viewModel.state.first { it.query == "error" && it.error != null }
         }
+
+        assertThat(final.results).isEmpty()
+        assertThat(final.error).isEqualTo("Unknown error")
     }
 }
