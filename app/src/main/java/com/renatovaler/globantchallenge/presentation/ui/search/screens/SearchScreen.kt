@@ -16,8 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.renatovaler.globantchallenge.R
 import com.renatovaler.globantchallenge.presentation.ui.search.SearchIntent
 import com.renatovaler.globantchallenge.presentation.ui.search.SearchState
 import com.renatovaler.globantchallenge.presentation.ui.search.components.CountryItem
@@ -37,7 +39,7 @@ fun SearchScreen(
         OutlinedTextField(
             value = state.query,
             onValueChange = { onIntent(SearchIntent.OnQueryChanged(it)) },
-            label = { Text("Buscar país") },
+            label = { Text(stringResource(R.string.search_country)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
