@@ -1,23 +1,15 @@
 package com.renatovaler.globantchallenge.presentation.ui.search
 
-import android.R.string.cancel
-import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.renatovaler.globantchallenge.core.network.NetworkError
 import com.renatovaler.globantchallenge.domain.usecase.getAll.GetAllCountriesUseCase
 import com.renatovaler.globantchallenge.domain.usecase.search.SearchCountriesUseCase
 import com.renatovaler.globantchallenge.utils.CountryFactory
 import com.renatovaler.globantchallenge.utils.MainDispatcherRule
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.NonCancellable.cancel
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
@@ -56,7 +48,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN initial loading data WHEN no query is entered THEN show all countries`() = runTest {
+    fun `GIVEN initial data WHEN no query is entered THEN show all countries`() = runTest {
         // WHEN
         advanceUntilIdle()
 
@@ -92,7 +84,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN query with no result WHEN search is performed THEN show loading state`() = runTest {
+    fun `GIVEN country that doesn't exist with no result WHEN search is performed THEN show loading state`() = runTest {
         // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("xzy"))
         advanceUntilIdle()
@@ -109,7 +101,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN search fails WHEN query is entered THEN show error`() = runTest {
+    fun `GIVEN search fails WHEN query is entered THEN show timeout error`() = runTest {
         // GIVEN
         whenever(searchCountriesUseCase("per")).thenReturn(flowOf(Result.failure(NetworkError.Timeout)))
 
@@ -129,7 +121,7 @@ class SearchViewModelTest {
 
 
     @Test
-    fun `GIVEN getAllCountries fails WHEN ViewModel is created THEN show error`() = runTest {
+    fun `GIVEN getAllCountries fails WHEN ViewModel is created THEN show server error`() = runTest {
         // GIVEN
         whenever(getAllCountriesUseCase()).thenReturn(flowOf(Result.failure(NetworkError.ServerError)))
 
