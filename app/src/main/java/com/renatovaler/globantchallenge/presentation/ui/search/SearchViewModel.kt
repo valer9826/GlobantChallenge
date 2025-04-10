@@ -3,7 +3,7 @@ package com.renatovaler.globantchallenge.presentation.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renatovaler.globantchallenge.core.network.NetworkError
-import com.renatovaler.globantchallenge.domain.usecase.getAll.GetAllCountriesUseCase
+import com.renatovaler.globantchallenge.domain.repository.CountryRepository
 import com.renatovaler.globantchallenge.domain.usecase.search.SearchCountriesUseCase
 import com.renatovaler.globantchallenge.presentation.ui.search.mapper.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    getAllCountriesUseCase: GetAllCountriesUseCase,
+    repository: CountryRepository,
     searchCountriesUseCase: SearchCountriesUseCase,
 ) : ViewModel() {
 
@@ -39,7 +39,7 @@ class SearchViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Result.success(emptyList()))
 
-    private val _allCountries = getAllCountriesUseCase()
+    private val _allCountries = repository.getAllCountries()
         .catch { e ->
             emit(Result.failure(e))
         }

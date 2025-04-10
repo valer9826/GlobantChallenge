@@ -14,7 +14,7 @@ class CountryRepositoryImpl @Inject constructor(
     private val api: CountriesApi
 ) : CountryRepository {
 
-    override fun getAll(): Flow<Result<List<Country>>> = flow {
+    override fun getAllCountries(): Flow<Result<List<Country>>> = flow {
         val result = safeApiCall {
             api.getAll().map { it.toDomain() }
         }
