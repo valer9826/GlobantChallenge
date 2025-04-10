@@ -45,6 +45,7 @@ fun SearchRootScreen(
             )
         }
     ) { innerPadding ->
+
         SearchScreen(
             modifier = Modifier.padding(innerPadding),
             state = state,

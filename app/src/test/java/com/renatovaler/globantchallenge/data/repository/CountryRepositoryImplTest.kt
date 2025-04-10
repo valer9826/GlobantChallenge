@@ -66,7 +66,7 @@ class CountryRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN API throws exception WHEN getAll is called THEN emit failure result`() = runTest {
+    fun `GIVEN API throws runtime exception WHEN getAll is called THEN emit failure result with Unknown error`() = runTest {
         // GIVEN
         whenever(api.getAll()).thenThrow(RuntimeException("Network error"))
 
@@ -128,7 +128,7 @@ class CountryRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN unknown exception WHEN search is called THEN emit failure with NetworkError Unknown`() = runTest {
+    fun `GIVEN unknown exception WHEN search is called THEN emit failure with NetworkError Unknown error`() = runTest {
         // GIVEN
         whenever(api.search("any")).thenThrow(IllegalStateException("Unknown error"))
 

@@ -44,7 +44,7 @@ class SearchViewModelTest {
         whenever(searchCountriesUseCase("per")).thenReturn(flowOf(Result.success(searchResult)))
         whenever(searchCountriesUseCase("xzy")).thenReturn(flowOf(Result.success(emptyList())))
         whenever(searchCountriesUseCase("error")).thenReturn(flowOf(Result.failure(NetworkError.Unknown)))
-        viewModel = SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase, testDispatchers)
+        viewModel = SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase)
     }
 
     @Test
@@ -84,7 +84,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN country that doesn't exist with no result WHEN search is performed THEN show loading state`() = runTest {
+    fun `GIVEN valid search query with no result WHEN search is performed THEN show loading state`() = runTest {
         // WHEN
         viewModel.onIntent(SearchIntent.OnQueryChanged("xzy"))
         advanceUntilIdle()
@@ -126,7 +126,7 @@ class SearchViewModelTest {
         whenever(getAllCountriesUseCase()).thenReturn(flowOf(Result.failure(NetworkError.ServerError)))
 
         // WHEN
-        val viewModel = SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase, testDispatchers)
+        val viewModel = SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase)
 
         // THEN
         val final = withTimeout(2000) {

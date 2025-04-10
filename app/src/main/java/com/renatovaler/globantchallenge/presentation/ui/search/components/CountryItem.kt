@@ -52,7 +52,7 @@ fun CountryItem(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CountryItemPreview() {
 

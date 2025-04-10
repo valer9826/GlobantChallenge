@@ -45,7 +45,7 @@ class SearchCountriesUseCaseImplTest {
     }
 
     @Test
-    fun `GIVEN query with length less than 2 WHEN invoke is called THEN return empty list`() = runTest {
+    fun `GIVEN search query with length less than 2 WHEN invoke is called THEN return empty list`() = runTest {
         // GIVEN
         val query = "p"
 
@@ -89,7 +89,7 @@ class SearchCountriesUseCaseImplTest {
     }
 
     @Test
-    fun `GIVEN valid query with no matching countries WHEN invoke is called THEN return empty list`() = runTest {
+    fun `GIVEN valid search query with no matching countries WHEN invoke is called THEN return empty list`() = runTest {
         // GIVEN
         val query = "xyz"
         whenever(repository.search(query)).thenReturn(flowOf(Result.success(emptyList())))

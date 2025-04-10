@@ -89,7 +89,6 @@ fun SearchScreen(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchScreen() {
