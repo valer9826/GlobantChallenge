@@ -30,8 +30,6 @@ class SearchViewModel @Inject constructor(
     dispatchers: DispatcherProvider,
 ) : ViewModel() {
 
-    internal var scope = viewModelScope
-
     private val _query = MutableStateFlow("")
 
     private val _searchResults = _query
@@ -41,13 +39,13 @@ class SearchViewModel @Inject constructor(
             searchCountriesUseCase(query)
                 .catch { emit(Result.failure(it)) }
         }
-        .stateIn(scope, SharingStarted.WhileSubscribed(5000), Result.success(emptyList()))
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Result.success(emptyList()))
 
     private val _allCountries = getAllCountriesUseCase()
         .catch { e ->
             emit(Result.failure(e))
         }
-        .stateIn(scope, SharingStarted.WhileSubscribed(5000), Result.success(emptyList()))
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Result.success(emptyList()))
 
     val state: StateFlow<SearchState> = combine(
         _query,
@@ -72,7 +70,7 @@ class SearchViewModel @Inject constructor(
             error = error
         )
     }.stateIn(
-        scope = scope,
+        scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = SearchState(isLoading = true)
     )
@@ -86,11 +84,11 @@ class SearchViewModel @Inject constructor(
 
     private fun mapErrorToMessage(error: Throwable?): String? {
         return when (error) {
-            is NetworkError.NoInternetConnection -> "Sin conexión a Internet"
-            is NetworkError.ServerError -> "Error del servidor"
-            is NetworkError.ClientError -> "Error en la petición"
-            is NetworkError.Timeout -> "Tiempo de espera agotado"
-            is NetworkError.Unknown -> "Error desconocido"
+            is NetworkError.NoInternetConnection -> "No internet connection"
+            is NetworkError.ServerError -> "Server error"
+            is NetworkError.ClientError -> "Request error"
+            is NetworkError.Timeout -> "Timeout"
+            is NetworkError.Unknown -> "Unknown error"
             else -> null
         }
     }
