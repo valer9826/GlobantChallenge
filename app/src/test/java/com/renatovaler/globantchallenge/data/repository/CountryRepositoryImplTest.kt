@@ -42,7 +42,7 @@ class CountryRepositoryImplTest {
         whenever(api.getAll()).thenReturn(dtoList)
 
         // WHEN
-        val result = repository.getAll().first()
+        val result = repository.getAllCountries().first()
 
         // THEN
         assertThat(result.isSuccess).isTrue()
@@ -71,7 +71,7 @@ class CountryRepositoryImplTest {
         whenever(api.getAll()).thenThrow(RuntimeException("Network error"))
 
         // WHEN
-        val result = repository.getAll().first()
+        val result = repository.getAllCountries().first()
 
         // THEN
         result.assertFailureOfType<NetworkError.Unknown>()

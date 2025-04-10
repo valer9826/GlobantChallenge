@@ -2,7 +2,7 @@ package com.renatovaler.globantchallenge.presentation.ui.search
 
 import com.google.common.truth.Truth.assertThat
 import com.renatovaler.globantchallenge.core.network.NetworkError
-import com.renatovaler.globantchallenge.domain.usecase.getAll.GetAllCountriesUseCase
+import com.renatovaler.globantchallenge.domain.repository.CountryRepository
 import com.renatovaler.globantchallenge.domain.usecase.search.SearchCountriesUseCase
 import com.renatovaler.globantchallenge.utils.CountryFactory
 import com.renatovaler.globantchallenge.utils.MainDispatcherRule
@@ -27,9 +27,7 @@ class SearchViewModelTest {
     @get:Rule
     val dispatcherRule = MainDispatcherRule()
 
-    private val testDispatchers get() = dispatcherRule.testDispatchers
-
-    private val getAllCountriesUseCase: GetAllCountriesUseCase = mock()
+    private val repository: CountryRepository = mock()
     private val searchCountriesUseCase: SearchCountriesUseCase = mock()
     private lateinit var viewModel: SearchViewModel
 
@@ -40,25 +38,23 @@ class SearchViewModelTest {
 
     @Before
     fun setup() {
-        whenever(getAllCountriesUseCase()).thenReturn(flowOf(Result.success(allCountries)))
+        whenever(repository.getAllCountries()).thenReturn(flowOf(Result.success(allCountries)))
         whenever(searchCountriesUseCase("per")).thenReturn(flowOf(Result.success(searchResult)))
         whenever(searchCountriesUseCase("xzy")).thenReturn(flowOf(Result.success(emptyList())))
         whenever(searchCountriesUseCase("error")).thenReturn(flowOf(Result.failure(NetworkError.Unknown)))
-        viewModel = SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase)
+
+        viewModel = SearchViewModel(repository, searchCountriesUseCase)
     }
 
     @Test
-    fun `GIVEN initial data WHEN no query is entered THEN show all countries`() = runTest {
+    fun `GIVEN loading initial data WHEN no query is entered THEN show all countries`() = runTest {
         // WHEN
         advanceUntilIdle()
 
         // THEN
         val final = withTimeout(2000) {
-            viewModel.state.first { state ->
-                state.results.isNotEmpty()
-            }
+            viewModel.state.first { it.results.isNotEmpty() }
         }
-
         assertThat(final.query).isEmpty()
         assertThat(final.results.map { it.commonName }).containsExactly("Peru", "Guyana")
         assertThat(final.isLoading).isFalse()
@@ -72,20 +68,14 @@ class SearchViewModelTest {
         advanceTimeBy(300)
         runCurrent()
 
-        // THEN
-        val final = viewModel.state.first { state ->
-            state.query == "per" && state.results.isNotEmpty()
-        }
-
-        assertThat(final.query).isEqualTo("per")
+        val final = viewModel.state.first { it.query == "per" && it.results.isNotEmpty() }
         assertThat(final.results.map { it.commonName }).containsExactly("Peru")
         assertThat(final.isLoading).isFalse()
         assertThat(final.error).isNull()
     }
 
     @Test
-    fun `GIVEN valid search query with no result WHEN search is performed THEN show loading state`() = runTest {
-        // WHEN
+    fun `GIVEN valid query with no result WHEN search is performed THEN show loading state`() = runTest {
         viewModel.onIntent(SearchIntent.OnQueryChanged("xzy"))
         advanceUntilIdle()
 
@@ -101,8 +91,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN search fails WHEN query is entered THEN show timeout error`() = runTest {
-        // GIVEN
+    fun `GIVEN search fails WHEN query is entered THEN show Timeout error`() = runTest {
         whenever(searchCountriesUseCase("per")).thenReturn(flowOf(Result.failure(NetworkError.Timeout)))
 
         // WHEN
@@ -119,14 +108,11 @@ class SearchViewModelTest {
         assertThat(final.error).isEqualTo("Timeout error")
     }
 
-
     @Test
-    fun `GIVEN getAllCountries fails WHEN ViewModel is created THEN show server error`() = runTest {
-        // GIVEN
-        whenever(getAllCountriesUseCase()).thenReturn(flowOf(Result.failure(NetworkError.ServerError)))
+    fun `GIVEN getAllCountries fails WHEN ViewModel is created THEN show Server error`() = runTest {
+        whenever(repository.getAllCountries()).thenReturn(flowOf(Result.failure(NetworkError.ServerError)))
 
-        // WHEN
-        val viewModel = SearchViewModel(getAllCountriesUseCase, searchCountriesUseCase)
+        val viewModel = SearchViewModel(repository, searchCountriesUseCase)
 
         // THEN
         val final = withTimeout(2000) {
@@ -135,7 +121,6 @@ class SearchViewModelTest {
 
         assertThat(final.error).isEqualTo("Server error")
     }
-
 
     @Test
     fun `GIVEN unknown exception WHEN search is triggered THEN show unknown error`() = runTest {
