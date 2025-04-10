@@ -33,8 +33,8 @@ fun mapToNetworkError(e: Throwable): NetworkError {
             NetworkError.NoInternetConnection
 
         e is HttpException || e.findCause<HttpException>() != null -> {
-            val http = e as? HttpException ?: e.findCause<HttpException>()!!
-            when (http.code()) {
+            val http = e as? HttpException ?: e.findCause<HttpException>()
+            when (http?.code()) {
                 in 400..499 -> NetworkError.ClientError
                 in 500..599 -> NetworkError.ServerError
                 else -> NetworkError.Unknown
