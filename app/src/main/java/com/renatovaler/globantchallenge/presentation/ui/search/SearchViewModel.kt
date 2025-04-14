@@ -3,20 +3,23 @@ package com.renatovaler.globantchallenge.presentation.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renatovaler.globantchallenge.core.network.NetworkError
+import com.renatovaler.globantchallenge.domain.model.Country
 import com.renatovaler.globantchallenge.domain.repository.CountryRepository
-import com.renatovaler.globantchallenge.domain.usecase.search.SearchCountriesUseCase
 import com.renatovaler.globantchallenge.presentation.ui.search.mapper.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -25,25 +28,37 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     repository: CountryRepository,
-    searchCountriesUseCase: SearchCountriesUseCase,
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
+    private var isFirstTimeInitialLoadingData = true
+    private var cachedCountriesResult: Result<List<Country>> = Result.success(emptyList())
 
     private val _searchResults = _query
         .debounce(200)
-        .filter { it.isNotBlank() }
         .flatMapLatest { query ->
-            searchCountriesUseCase(query)
-                .catch { emit(Result.failure(it)) }
+            if (query.length >= 2) {
+                repository.search(query)
+                    .catch { emit(Result.failure(it)) }
+            } else {
+                flowOf(Result.success(emptyList()))
+            }
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Result.success(emptyList()))
 
-    private val _allCountries = repository.getAllCountries()
-        .catch { e ->
-            emit(Result.failure(e))
+    private val _allCountries: Flow<Result<List<Country>>> = flow {
+        if (isFirstTimeInitialLoadingData) {
+            isFirstTimeInitialLoadingData = false
+
+            repository.getAllCountries()
+                .catch { emit(Result.failure(it)) }
+                .collect {
+                    cachedCountriesResult = it
+                    emit(it)
+                }
+        } else {
+            emit(cachedCountriesResult)
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Result.success(emptyList()))
+    }
 
     val state: StateFlow<SearchState> = combine(
         _query,
@@ -59,7 +74,7 @@ class SearchViewModel @Inject constructor(
         val countries = when {
             query.isBlank() || query.length < 2 -> allCountriesResult.getOrNull().orEmpty()
             else -> searchResult.getOrNull().orEmpty()
-        }.map { it.toUiModel() }
+        }.map { it.toUiModel() }.toPersistentList()
 
         SearchState(
             query = query,
