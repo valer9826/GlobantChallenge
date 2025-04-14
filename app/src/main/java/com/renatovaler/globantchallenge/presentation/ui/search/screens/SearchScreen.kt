@@ -24,6 +24,7 @@ import com.renatovaler.globantchallenge.presentation.ui.search.SearchIntent
 import com.renatovaler.globantchallenge.presentation.ui.search.SearchState
 import com.renatovaler.globantchallenge.presentation.ui.search.components.CountryItem
 import com.renatovaler.globantchallenge.presentation.ui.search.model.CountryUiModel
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun SearchScreen(
@@ -33,8 +34,7 @@ fun SearchScreen(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
     ) {
         OutlinedTextField(
             value = state.query,
@@ -94,7 +94,7 @@ fun SearchScreen(
 fun PreviewSearchScreen() {
     val fakeState = SearchState(
         query = "pe",
-        results = listOf(
+        results = persistentListOf(
             CountryUiModel(
                 officialName = "Republic of Peru",
                 commonName = "Peru",
