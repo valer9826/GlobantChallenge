@@ -1,8 +1,10 @@
 package com.renatovaler.globantchallenge.presentation.ui.search.model
 
 import android.os.Parcelable
+import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
 
+@Immutable
 @Parcelize
 data class CountryUiModel(
     val commonName: String,
