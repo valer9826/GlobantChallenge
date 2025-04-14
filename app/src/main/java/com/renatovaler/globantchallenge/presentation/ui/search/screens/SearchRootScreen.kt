@@ -24,9 +24,9 @@ import kotlinx.coroutines.FlowPreview
 @ExperimentalCoroutinesApi
 @Composable
 fun SearchRootScreen(
-    onNavigateToDetail: (CountryUiModel) -> Unit
+    onNavigateToDetail: (CountryUiModel) -> Unit,
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val viewModel: SearchViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
