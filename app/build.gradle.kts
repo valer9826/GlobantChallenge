@@ -68,6 +68,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     testImplementation(libs.junit.junit)
 
+    //Collections Immutable
+    implementation(libs.kotlinx.collections.immutable)
+
     // Hilt
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.android)
