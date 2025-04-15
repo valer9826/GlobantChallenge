@@ -144,4 +144,63 @@ class SearchViewModelTest {
         assertThat(result.results).isEmpty()
         assertThat(result.error).isEqualTo("Unknown error")
     }
+
+    @Test
+    fun `GIVEN query 'guy' WHEN search is called THEN return only Guyana`() = runTest {
+        // GIVEN
+        val resultList = listOf(guyana)
+        whenever(repository.search("guy")).thenReturn(flowOf(Result.success(resultList)))
+
+        // WHEN
+        viewModel.onIntent(SearchIntent.OnQueryChanged("guy"))
+        advanceTimeBy(300)
+        runCurrent()
+
+        val result = withTimeout(2000) {
+            viewModel.state.first { it.query == "guy" && it.results.size == 1 }
+        }
+
+        // THEN
+        assertThat(result.results.map { it.commonName }).containsExactly("Guyana")
+        assertThat(result.error).isNull()
+        assertThat(result.isLoading).isFalse()
+    }
+
+    @Test
+    fun `GIVEN query 'xx' WHEN search is called THEN return empty list`() = runTest {
+        // GIVEN
+        whenever(repository.search("xx")).thenReturn(flowOf(Result.success(emptyList())))
+
+        // WHEN
+        viewModel.onIntent(SearchIntent.OnQueryChanged("xx"))
+        advanceTimeBy(300)
+        runCurrent()
+
+        val result = withTimeout(2000) {
+            viewModel.state.first { it.query == "xx" && it.results.isEmpty() }
+        }
+
+        // THEN
+        assertThat(result.results).isEmpty()
+        assertThat(result.error).isNull()
+        assertThat(result.isLoading).isTrue()
+    }
+
+    @Test
+    fun `GIVEN query with less than 2 letters WHEN search is triggered THEN ignore search and show all countries`() = runTest {
+        // WHEN
+        viewModel.onIntent(SearchIntent.OnQueryChanged("p"))
+        advanceTimeBy(300)
+        runCurrent()
+
+        val result = withTimeout(2000) {
+            viewModel.state.first { it.query == "p" }
+        }
+
+        // THEN
+        assertThat(result.results.map { it.commonName }).containsExactly("Peru", "Guyana")
+        assertThat(result.isLoading).isFalse()
+        assertThat(result.error).isNull()
+    }
+
 }
