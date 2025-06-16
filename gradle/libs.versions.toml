@@ -5,7 +5,7 @@ converterGson = "2.11.0"
 coreTesting = "2.2.0"
 hiltAndroid = "2.56.2"
 hiltNavigationFragment = "1.2.0"
-kotlin = "2.1.20"
+kotlin = "2.1.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -19,7 +19,7 @@ loggingInterceptor = "5.0.0-alpha.14"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
-ksp = "2.1.20-1.0.32"
+ksp = "2.1.21-2.0.2"
 
 #Compose
 lifecycleRuntimeKtx = "2.9.1"
@@ -33,7 +33,6 @@ navigationFragmentKtx = "2.9.0"
 retrofit = "2.11.0"
 truth = "1.1.5"
 turbine = "1.0.0"
-junitJunit = "4.13.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -80,7 +79,7 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
