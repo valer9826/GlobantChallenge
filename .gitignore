@@ -15,3 +15,61 @@
 local.properties
 /.idea/misc.xml
 /.idea/vcs.xml
+
+# Android Studio specific files
+.idea/
+.gradle/
+build/
+*.ipr
+*.iws
+captures/ # Capturas de Android Studio Profiler
+
+# Generated files
+.cxx/
+.externalNativeBuild/
+.DS_Store # macOS specific
+Thumbs.db # Windows specific
+
+# Keystore files
+*.jks
+*.keystore
+
+# Local AVD files
+.android/avd/
+
+# Local Emulator Snapshots
+.android/avd/*.ini
+.android/avd/*.img
+
+# Crashlytics/Fabric
+fabric/
+
+# Android specific build output
+*.apk
+*.aab
+*.aar
+
+# Kotlin related files
+*.kpt # Kotlin annotation processing tool generated files
+
+# Other common build/IDE artifacts
+*.log
+temp/
+tmp/
+
+# From your screenshot:
+# Estos son archivos específicos que se ven en "Unversioned files" en tu captura.
+# Son archivos de configuración interna de Android Studio/IDE que no deben versionarse.
+.idea/AndroidStudio4.0/
+.idea/workspace.xml
+.idea/libraries/
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/codeStyles/
+.idea/inspectionProfiles/
+
+# También se ve un directorio "pymakr" en la esquina superior de la imagen (aunque puede no ser relevante para Android Studio)
+# Si 'pymakr' es parte de tu proyecto y genera archivos temporales/builds que no quieres versionar, considera añadir:
+# pymakr/
