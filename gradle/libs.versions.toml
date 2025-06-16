@@ -1,39 +1,39 @@
 [versions]
-agp = "8.9.0"
-coilCompose = "2.5.0"
-converterGson = "2.9.0"
+agp = "8.9.3"
+coilCompose = "2.6.0"
+converterGson = "2.11.0"
 coreTesting = "2.2.0"
-hiltAndroid = "2.56.1"
+hiltAndroid = "2.56.2"
 hiltNavigationFragment = "1.2.0"
-kotlin = "2.1.10"
-coreKtx = "1.15.0"
+kotlin = "2.1.20"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-appcompat = "1.7.0"
-kotlinTest = "2.1.10"
-kotlinxCollectionsImmutable = "0.3.6"
-kotlinxCoroutinesCore = "1.7.3"
-lifecycleRuntimeCompose = "2.8.7"
-loggingInterceptor = "5.0.0-alpha.11"
+appcompat = "1.7.1"
+kotlinTest = "2.1.20"
+kotlinxCollectionsImmutable = "0.4.0"
+kotlinxCoroutinesCore = "1.10.2"
+lifecycleRuntimeCompose = "2.9.1"
+loggingInterceptor = "5.0.0-alpha.14"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
-ksp = "2.1.10-1.0.31"
+ksp = "2.1.20-1.0.32"
 
 #Compose
-lifecycleRuntimeKtx = "2.8.7"
+lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
-composeBom = "2025.03.01"
+composeBom = "2025.06.00"
 materialIconsExtended = "1.7.8"
 mockitoCore = "5.11.0"
 mockitoInline = "5.2.0"
 mockitoKotlin = "5.2.1"
-navigationFragmentKtx = "2.8.9"
-retrofit = "2.9.0"
+navigationFragmentKtx = "2.9.0"
+retrofit = "2.11.0"
 truth = "1.1.5"
 turbine = "1.0.0"
-junitJunit = "4.12"
+junitJunit = "4.13.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,7 +49,6 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }

@@ -1,5 +1,6 @@
 package com.renatovaler.globantchallenge.presentation.ui.search
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.renatovaler.globantchallenge.core.network.NetworkError
 import com.renatovaler.globantchallenge.domain.repository.CountryRepository
@@ -9,6 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
